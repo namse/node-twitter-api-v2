@@ -1,7 +1,12 @@
-import type { BooleanString, NumberString } from '../shared.types';
-import type * as fs from 'fs';
-import { UserV1 } from './user.v1.types';
-import { CoordinateV1, PlaceV1, TweetEntitiesV1, TweetExtendedEntitiesV1 } from './entities.v1.types';
+import type { BooleanString, NumberString } from "../shared.types";
+import type * as fs from "fs";
+import { UserV1 } from "./user.v1.types";
+import {
+  CoordinateV1,
+  PlaceV1,
+  TweetEntitiesV1,
+  TweetExtendedEntitiesV1,
+} from "./entities.v1.types";
 
 // - Entity -
 
@@ -35,12 +40,12 @@ export interface TweetV1 {
   favorited: boolean | null;
   retweeted: boolean;
   possibly_sensitive: boolean | null;
-  filter_level: 'none' | 'low' | 'medium' | 'high';
+  filter_level: "none" | "low" | "medium" | "high";
   lang: string;
   display_text_range?: [number, number];
 
   // Additionnal attributes
-  current_user_retweet?: { id: number, id_str: string };
+  current_user_retweet?: { id: number; id_str: string };
   withheld_copyright?: boolean;
   withheld_in_countries?: string[];
   withheld_scope?: string;
@@ -50,7 +55,7 @@ export interface TweetV1 {
 // - Params -
 
 export interface TweetShowV1Params {
-  tweet_mode?: 'compat' | 'extended';
+  tweet_mode?: "compat" | "extended";
   id?: string;
   trim_user?: boolean;
   include_my_retweet?: boolean;
@@ -62,12 +67,12 @@ export interface TweetShowV1Params {
 export type TweetLookupV1Params = {
   id?: string | string[];
   map?: boolean;
-} & Omit<TweetShowV1Params, 'include_my_retweet'>;
+} & Omit<TweetShowV1Params, "include_my_retweet">;
 export type TweetLookupNoMapV1Params = TweetLookupV1Params & { map?: false };
 export type TweetLookupMapV1Params = TweetLookupV1Params & { map: true };
 
 export interface AskTweetV1Params {
-  tweet_mode?: 'extended' | 'compat';
+  tweet_mode?: "extended" | "compat";
   include_entities?: boolean;
   trim_user?: boolean;
 }
@@ -102,27 +107,35 @@ export interface SendTweetV1Params extends AskTweetV1Params {
   place_id?: string;
 }
 
-export type TUploadTypeV1 = 'mp4' | 'longmp4' | 'gif' | 'jpg' | 'png' | 'srt' | 'webp';
+export type TUploadTypeV1 =
+  | "mp4"
+  | "longmp4"
+  | "gif"
+  | "jpg"
+  | "png"
+  | "srt"
+  | "webp";
 
 export enum EUploadMimeType {
-  Jpeg = 'image/jpeg',
-  Mp4 = 'video/mp4',
-  Gif = 'image/gif',
-  Png = 'image/png',
-  Srt = 'text/plain',
-  Webp = 'image/webp'
+  Jpeg = "image/jpeg",
+  Mp4 = "video/mp4",
+  Gif = "image/gif",
+  Png = "image/png",
+  Srt = "text/plain",
+  Webp = "image/webp",
 }
 
 export interface UploadMediaV1Params {
   /** @deprecated Directly use `mimeType` parameter with one of the allowed MIME types in `EUploadMimeType`. */
   type: TUploadTypeV1 | string;
   mimeType: EUploadMimeType | string;
-  target: 'tweet' | 'dm';
+  target: "tweet" | "dm";
   chunkLength: number;
   shared: boolean;
   longVideo: boolean;
   additionalOwners: string | string[];
   maxConcurrentUploads: number;
+  mediaCategory: string | undefined;
 }
 
 export interface MediaMetadataV1Params {
@@ -142,7 +155,11 @@ export interface MediaSubtitleV1Param {
  * - `fs.promises.FileHandle`: Opened file with `fs.promises`
  * - `number`: Opened file with `fs` classic functions
  */
-export type TUploadableMedia = string | Buffer | fs.promises.FileHandle | number;
+export type TUploadableMedia =
+  | string
+  | Buffer
+  | fs.promises.FileHandle
+  | number;
 
 export interface OembedTweetV1Params {
   url: string;
@@ -150,12 +167,12 @@ export interface OembedTweetV1Params {
   hide_media?: boolean;
   hide_thread?: boolean;
   omit_script?: boolean;
-  align?: 'left' | 'right' | 'center' | 'none';
+  align?: "left" | "right" | "center" | "none";
   related?: string;
   lang?: string;
-  theme?: 'light' | 'dark';
+  theme?: "light" | "dark";
   link_color?: string;
-  widget_type?: 'video';
+  widget_type?: "video";
   dnt?: boolean;
 }
 
@@ -178,13 +195,13 @@ export interface InitMediaV1Result {
 export interface MediaStatusV1Result {
   media_id: number;
   media_id_string: string;
-  size: number,
+  size: number;
   expires_after_secs: number;
   video?: {
     video_type: string;
   };
   processing_info?: {
-    state: 'pending' | 'failed' | 'succeeded' | 'in_progress';
+    state: "pending" | "failed" | "succeeded" | "in_progress";
     check_after_secs?: number;
     progress_percent?: number;
     error?: {
